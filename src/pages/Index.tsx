@@ -40,26 +40,6 @@ const Index = () => {
     }
   ];
 
-  const gearPreview = [
-    {
-      name: "Pro Gaming Mouse X1",
-      price: "£79.99",
-      image: "https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=300&h=200&fit=crop",
-      badge: "Best Seller"
-    },
-    {
-      name: "Mechanical Keyboard",
-      price: "£149.99", 
-      image: "https://images.unsplash.com/photo-1541140532154-b024d705b90a?w=300&h=200&fit=crop",
-      badge: "RGB"
-    },
-    {
-      name: "4K Gaming Monitor",
-      price: "£699.99",
-      image: "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=300&h=200&fit=crop", 
-      badge: "144Hz"
-    }
-  ];
 
   const socialLinks = [
     { icon: Twitter, href: "#", label: "Twitter" },
@@ -152,57 +132,6 @@ const Index = () => {
                 </Card>
               );
             })}
-          </div>
-        </div>
-      </section>
-
-      {/* Gear Preview Section */}
-      <section className="py-20 px-6 bg-gradient-card">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4">
-              Premium Gaming{" "}
-              <span className="bg-gradient-primary bg-clip-text text-transparent">Equipment</span>
-            </h2>
-            <p className="text-xl text-muted-foreground">
-              Handpicked gear to enhance your gaming experience
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            {gearPreview.map((item, index) => (
-              <Card key={index} className="group hover:shadow-gaming transition-all duration-300 bg-gradient-card">
-                <div className="relative overflow-hidden rounded-t-lg">
-                  <img 
-                    src={item.image} 
-                    alt={item.name}
-                    className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                  <Badge className="absolute top-3 right-3 bg-gaming-green">
-                    {item.badge}
-                  </Badge>
-                </div>
-                <CardContent className="p-6">
-                  <h3 className="font-semibold text-lg mb-2">{item.name}</h3>
-                  <div className="flex justify-between items-center">
-                    <span className="text-2xl font-bold text-gaming-green">{item.price}</span>
-                    <Button variant="outline" size="sm">
-                      <ShoppingBag className="w-4 h-4 mr-2" />
-                      View
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-
-          <div className="text-center mt-12">
-            <Link to="/gear">
-              <Button size="lg" className="bg-gradient-accent">
-                <ShoppingBag className="w-5 h-5 mr-2" />
-                View All Gear
-              </Button>
-            </Link>
           </div>
         </div>
       </section>
