@@ -6,11 +6,11 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Download, Lock, Unlock, Monitor, Smartphone, Server, Zap, Shield, Cpu, HardDrive } from "lucide-react";
+import { Download, Lock, Unlock, Monitor, Smartphone, Server, Zap, Shield, Cpu, HardDrive, Crown } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 export default function Optimizer() {
-  const [isProUser, setIsProUser] = useState(false);
+  const [proTier, setProTier] = useState(0); // 0 = free, 1 = tier 1, 2 = tier 2
   const [proKey, setProKey] = useState("");
   const { toast } = useToast();
 
@@ -32,6 +32,14 @@ export default function Optimizer() {
     customRegistry: false,
     serviceOptimization: false,
     securityBypass: false,
+    
+    // Additional optimizations
+    gameMode: false,
+    backgroundApps: false,
+    mouseSensitivity: false,
+    systemCleaner: false,
+    overclocking: false,
+    thermalManagement: false,
   });
 
   const basicOptimizations = [
@@ -129,11 +137,23 @@ export default function Optimizer() {
 
   const validateProKey = () => {
     // Mock validation - in real app, this would call an API
-    if (proKey === "NEXUS-PRO-DEMO") {
-      setIsProUser(true);
+    if (proKey === "NEXUS-PRO-T1-DEMO") {
+      setProTier(1);
       toast({
-        title: "Pro Key Activated!",
+        title: "Pro Tier 1 Activated!",
+        description: "You now have access to Tier 1 Pro features.",
+      });
+    } else if (proKey === "NEXUS-PRO-T2-DEMO") {
+      setProTier(2);
+      toast({
+        title: "Pro Tier 2 Activated!",
         description: "You now have access to all Pro features.",
+      });
+    } else if (proKey === "NEXUS-PRO-DEMO") {
+      setProTier(1);
+      toast({
+        title: "Pro Tier 1 Activated!",
+        description: "You now have access to Tier 1 Pro features.",
       });
     } else {
       toast({
@@ -143,6 +163,52 @@ export default function Optimizer() {
       });
     }
   };
+
+  // Additional optimization arrays
+  const additionalBasicOptimizations = [
+    { 
+      key: "gameMode", 
+      label: "Game Mode", 
+      description: "Activates Windows Game Mode for better performance",
+      icon: Zap
+    },
+    { 
+      key: "backgroundApps", 
+      label: "Background Apps", 
+      description: "Limits background application usage",
+      icon: Shield
+    },
+    { 
+      key: "mouseSensitivity", 
+      label: "Mouse Optimization", 
+      description: "Optimizes mouse polling rate and sensitivity",
+      icon: Monitor
+    },
+  ];
+
+  const additionalProTier1Optimizations = [
+    { 
+      key: "systemCleaner", 
+      label: "System Cleaner", 
+      description: "Cleans temporary files and system cache",
+      icon: HardDrive
+    },
+  ];
+
+  const additionalProTier2Optimizations = [
+    { 
+      key: "overclocking", 
+      label: "Safe Overclocking", 
+      description: "Applies safe CPU/GPU overclocking profiles",
+      icon: Cpu
+    },
+    { 
+      key: "thermalManagement", 
+      label: "Thermal Management", 
+      description: "Advanced thermal monitoring and fan control",
+      icon: Zap
+    },
+  ];
 
   const OptimizationCard = ({ optimization, disabled = false, tier = "" }) => {
     const Icon = optimization.icon;
@@ -189,8 +255,25 @@ export default function Optimizer() {
           </p>
         </div>
 
+        {/* Pro Status */}
+        {proTier > 0 && (
+          <Card className="mb-8 border-primary/20 bg-gradient-card">
+            <CardContent className="p-4">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-2">
+                  <Crown className="w-5 h-5 text-primary" />
+                  <span className="font-semibold">Pro Tier {proTier} Active</span>
+                  <Badge className={proTier === 2 ? "bg-gaming-purple" : "bg-gaming-blue"}>
+                    {proTier === 2 ? "Max Tier" : "Tier 1"}
+                  </Badge>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        )}
+
         {/* Pro Key Input */}
-        {!isProUser && (
+        {proTier === 0 && (
           <Card className="mb-8 border-primary/20 bg-gradient-card">
             <CardHeader>
               <CardTitle className="flex items-center space-x-2">
@@ -246,6 +329,9 @@ export default function Optimizer() {
                 {basicOptimizations.map((opt) => (
                   <OptimizationCard key={opt.key} optimization={opt} />
                 ))}
+                {additionalBasicOptimizations.map((opt) => (
+                  <OptimizationCard key={opt.key} optimization={opt} />
+                ))}
               </div>
             </div>
 
@@ -260,7 +346,15 @@ export default function Optimizer() {
                   <OptimizationCard 
                     key={opt.key} 
                     optimization={opt} 
-                    disabled={!isProUser}
+                    disabled={proTier < 1}
+                    tier="Tier 1"
+                  />
+                ))}
+                {additionalProTier1Optimizations.map((opt) => (
+                  <OptimizationCard 
+                    key={opt.key} 
+                    optimization={opt} 
+                    disabled={proTier < 1}
                     tier="Tier 1"
                   />
                 ))}
@@ -278,7 +372,15 @@ export default function Optimizer() {
                   <OptimizationCard 
                     key={opt.key} 
                     optimization={opt} 
-                    disabled={!isProUser}
+                    disabled={proTier < 2}
+                    tier="Tier 2"
+                  />
+                ))}
+                {additionalProTier2Optimizations.map((opt) => (
+                  <OptimizationCard 
+                    key={opt.key} 
+                    optimization={opt} 
+                    disabled={proTier < 2}
                     tier="Tier 2"
                   />
                 ))}

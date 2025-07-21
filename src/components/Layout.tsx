@@ -1,12 +1,33 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Moon, Sun, Menu, X, Zap, ShoppingBag, Crown, Key } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Moon, Sun, Menu, X, Zap, ShoppingBag, Crown, Key, Download, User, LogOut } from "lucide-react";
+import AuthModal from "./AuthModal";
+import CartModal from "./CartModal";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const [darkMode, setDarkMode] = useState(true);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [authModalOpen, setAuthModalOpen] = useState(false);
+  const [cartModalOpen, setCartModalOpen] = useState(false);
+  const [user, setUser] = useState<any>(null);
+  const [cart, setCart] = useState<any[]>([]);
   const location = useLocation();
+
+  useEffect(() => {
+    // Load user from localStorage
+    const savedUser = localStorage.getItem('nexus_user');
+    if (savedUser) {
+      setUser(JSON.parse(savedUser));
+    }
+    
+    // Load cart from localStorage
+    const savedCart = localStorage.getItem('nexus_cart');
+    if (savedCart) {
+      setCart(JSON.parse(savedCart));
+    }
+  }, []);
 
   useEffect(() => {
     if (darkMode) {
@@ -17,6 +38,16 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       document.documentElement.classList.add('light');
     }
   }, [darkMode]);
+
+  const updateCart = (newCart: any[]) => {
+    setCart(newCart);
+    localStorage.setItem('nexus_cart', JSON.stringify(newCart));
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('nexus_user');
+    setUser(null);
+  };
 
   const navItems = [
     { name: "Home", href: "/", icon: Zap },
@@ -43,7 +74,13 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             </Link>
 
             {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center space-x-6">
+            <div className="hidden md:flex items-center space-x-4">
+              {/* Download Button */}
+              <Button variant="outline" size="sm" className="flex items-center space-x-1">
+                <Download className="w-4 h-4" />
+                <span>Download</span>
+              </Button>
+
               {navItems.map((item) => {
                 const Icon = item.icon;
                 return (
@@ -61,6 +98,48 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                   </Link>
                 );
               })}
+              
+              {/* Cart Button */}
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setCartModalOpen(true)}
+                className="relative"
+              >
+                <ShoppingBag className="w-4 h-4" />
+                {cart.length > 0 && (
+                  <Badge className="absolute -top-2 -right-2 w-5 h-5 p-0 flex items-center justify-center text-xs">
+                    {cart.reduce((sum, item) => sum + item.quantity, 0)}
+                  </Badge>
+                )}
+              </Button>
+
+              {/* Auth Section */}
+              {user ? (
+                <div className="flex items-center space-x-2">
+                  <Button variant="ghost" size="sm" className="flex items-center space-x-1">
+                    <User className="w-4 h-4" />
+                    <span className="text-sm">{user.name}</span>
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={handleLogout}
+                    className="text-destructive hover:text-destructive"
+                  >
+                    <LogOut className="w-4 h-4" />
+                  </Button>
+                </div>
+              ) : (
+                <Button
+                  variant="default"
+                  size="sm"
+                  onClick={() => setAuthModalOpen(true)}
+                  className="bg-gradient-primary"
+                >
+                  Login / Sign Up
+                </Button>
+              )}
               
               {/* Theme Toggle */}
               <Button
@@ -122,6 +201,19 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
       {/* Main Content */}
       <main>{children}</main>
+
+      {/* Modals */}
+      <AuthModal
+        isOpen={authModalOpen}
+        onClose={() => setAuthModalOpen(false)}
+        onAuthSuccess={setUser}
+      />
+      <CartModal
+        isOpen={cartModalOpen}
+        onClose={() => setCartModalOpen(false)}
+        cart={cart}
+        updateCart={updateCart}
+      />
 
       {/* Footer */}
       <footer className="bg-card border-t border-border mt-16">
