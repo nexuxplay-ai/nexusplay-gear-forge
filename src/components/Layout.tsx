@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Moon, Sun, Menu, X, Zap, ShoppingBag, Crown, Key, Download, User, LogOut } from "lucide-react";
 import AuthModal from "./AuthModal";
 import CartModal from "./CartModal";
+import NexusAI from "./NexusAI";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const [darkMode, setDarkMode] = useState(true);
@@ -14,6 +15,12 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<any>(null);
   const [cart, setCart] = useState<any[]>([]);
   const location = useLocation();
+
+  const getAIContext = () => {
+    if (location.pathname === '/optimizer') return 'optimizer';
+    if (location.pathname === '/gear') return 'store';
+    return 'optimizer'; // default context
+  };
 
   useEffect(() => {
     // Load user from localStorage
@@ -213,6 +220,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         cart={cart}
         updateCart={updateCart}
       />
+
+      {/* NexusAI Chat */}
+      <NexusAI context={getAIContext()} />
 
       {/* Footer */}
       <footer className="bg-card border-t border-border mt-16">
