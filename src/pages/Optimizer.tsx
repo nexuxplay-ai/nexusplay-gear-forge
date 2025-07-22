@@ -8,6 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Download, Lock, Unlock, Monitor, Smartphone, Server, Zap, Shield, Cpu, HardDrive, Crown } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import NexusAI from "@/components/NexusAI";
 
 export default function Optimizer() {
   const [proTier, setProTier] = useState(0); // 0 = free, 1 = tier 1, 2 = tier 2
@@ -417,6 +418,9 @@ export default function Optimizer() {
           </Button>
         </div>
       </div>
+      
+      {/* NexusAI Chat Assistant */}
+      <NexusAI context="optimizer" />
     </div>
   );
 }

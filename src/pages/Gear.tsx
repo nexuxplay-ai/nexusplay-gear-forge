@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Search, ShoppingCart, Star, Mouse, Keyboard, Monitor, Headphones, Gamepad2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import NexusAI from "@/components/NexusAI";
 
 export default function Gear() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -531,6 +532,9 @@ export default function Gear() {
           </div>
         )}
       </div>
+      
+      {/* NexusAI Chat Assistant */}
+      <NexusAI context="store" />
     </div>
   );
 }
