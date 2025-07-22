@@ -75,11 +75,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-4">
-              {/* Download Button */}
-              <Button variant="outline" size="sm" className="w-9 h-9 p-0 hover-scale">
-                <Download className="w-4 h-4" />
-              </Button>
-
               {navItems.map((item) => {
                 const Icon = item.icon;
                 return (
@@ -113,6 +108,21 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 )}
               </Button>
 
+              {/* Theme Toggle */}
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setDarkMode(!darkMode)}
+                className="w-9 h-9 p-0"
+              >
+                {darkMode ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+              </Button>
+
+              {/* Download Button */}
+              <Button variant="outline" size="sm" className="w-9 h-9 p-0 hover-scale">
+                <Download className="w-4 h-4" />
+              </Button>
+
               {/* Auth Section */}
               {user ? (
                 <div className="flex items-center space-x-2">
@@ -139,16 +149,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                   Login / Sign Up
                 </Button>
               )}
-              
-              {/* Theme Toggle */}
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => setDarkMode(!darkMode)}
-                className="w-9 h-9 p-0"
-              >
-                {darkMode ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
-              </Button>
             </div>
 
             {/* Mobile Menu Button */}
