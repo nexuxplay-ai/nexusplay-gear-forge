@@ -76,9 +76,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-4">
               {/* Download Button */}
-              <Button variant="outline" size="sm" className="flex items-center space-x-1">
+              <Button variant="outline" size="sm" className="w-9 h-9 p-0 hover-scale">
                 <Download className="w-4 h-4" />
-                <span>Download</span>
               </Button>
 
               {navItems.map((item) => {
@@ -227,9 +226,14 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 NexusPlay.io
               </span>
             </div>
-            <p className="text-muted-foreground text-sm">
+            <p className="text-muted-foreground text-sm mb-2">
               © 2024 NexusPlay.io. Optimize your gaming experience.
             </p>
+            <div className="animate-fade-in">
+              <p className="text-muted-foreground text-sm">
+                Contact: <span className="text-primary hover-scale inline-block cursor-pointer">Olamidepeniel@gmail.com</span>
+              </p>
+            </div>
           </div>
         </div>
       </footer>
