@@ -1,0 +1,112 @@
+[
+  {
+    "id": "mouse1",
+    "name": "Logitech G Pro X Superlight",
+    "category": "mice",
+    "price": 129.99,
+    "currency": "£",
+    "image": "https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=400&h=300&fit=crop",
+    "rating": 4.8,
+    "reviews": 245,
+    "features": ["Wireless", "25.6K DPI", "63g Weight", "RGB"]
+  },
+  {
+    "id": "mouse2",
+    "name": "Razer DeathAdder V3",
+    "category": "mice",
+    "price": 89.99,
+    "currency": "£",
+    "image": "https://images.unsplash.com/photo-1615663245857-ac93bb7c39e7?w=400&h=300&fit=crop",
+    "rating": 4.6,
+    "reviews": 189,
+    "features": ["Ergonomic", "30K DPI", "90h Battery", "Focus Pro"]
+  },
+  {
+    "id": "keyboard1",
+    "name": "SteelSeries Apex Pro",
+    "category": "keyboards",
+    "price": 199.99,
+    "currency": "£",
+    "image": "https://images.unsplash.com/photo-1511467687858-23d96c32e4ae?w=400&h=300&fit=crop",
+    "rating": 4.7,
+    "reviews": 156,
+    "features": ["Adjustable Switches", "OLED Display", "RGB", "Wrist Rest"]
+  },
+  {
+    "id": "keyboard2",
+    "name": "Corsair K95 RGB Platinum",
+    "category": "keyboards",
+    "price": 169.99,
+    "currency": "£",
+    "image": "https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=400&h=300&fit=crop",
+    "rating": 4.5,
+    "reviews": 203,
+    "features": ["Cherry MX", "Macro Keys", "RGB", "Aircraft Grade"]
+  },
+  {
+    "id": "monitor1",
+    "name": "ASUS ROG Swift PG279Q",
+    "category": "monitors",
+    "price": 599.99,
+    "currency": "£",
+    "image": "https://images.unsplash.com/photo-1527443154391-507e9dc6c5cc?w=400&h=300&fit=crop",
+    "rating": 4.9,
+    "reviews": 89,
+    "features": ["27\" 1440p", "165Hz", "G-Sync", "IPS Panel"]
+  },
+  {
+    "id": "monitor2",
+    "name": "Samsung Odyssey G7",
+    "category": "monitors",
+    "price": 649.99,
+    "currency": "£",
+    "image": "https://images.unsplash.com/photo-1551739440-5dd934d3a94a?w=400&h=300&fit=crop",
+    "rating": 4.6,
+    "reviews": 124,
+    "features": ["32\" 1440p", "240Hz", "FreeSync", "Curved QLED"]
+  },
+  {
+    "id": "headset1",
+    "name": "SteelSeries Arctis 7",
+    "category": "headsets",
+    "price": 149.99,
+    "currency": "£",
+    "image": "https://images.unsplash.com/photo-1484704849700-f032a568e944?w=400&h=300&fit=crop",
+    "rating": 4.4,
+    "reviews": 312,
+    "features": ["Wireless", "24h Battery", "7.1 Surround", "Retractable Mic"]
+  },
+  {
+    "id": "headset2",
+    "name": "HyperX Cloud II",
+    "category": "headsets",
+    "price": 99.99,
+    "currency": "£",
+    "image": "https://images.unsplash.com/photo-1583394838336-acd977736f90?w=400&h=300&fit=crop",
+    "rating": 4.7,
+    "reviews": 445,
+    "features": ["Wired", "Memory Foam", "7.1 Virtual", "Detachable Mic"]
+  },
+  {
+    "id": "mousepad1",
+    "name": "SteelSeries QcK Heavy",
+    "category": "accessories",
+    "price": 29.99,
+    "currency": "£",
+    "image": "https://images.unsplash.com/photo-1541140532154-b024d705b90a?w=400&h=300&fit=crop",
+    "rating": 4.8,
+    "reviews": 567,
+    "features": ["XXL Size", "6mm Thick", "Non-slip", "Cloth Surface"]
+  },
+  {
+    "id": "controller1",
+    "name": "Xbox Elite Series 2",
+    "category": "accessories",
+    "price": 179.99,
+    "currency": "£",
+    "image": "https://images.unsplash.com/photo-1605901309584-818e25960a8f?w=400&h=300&fit=crop",
+    "rating": 4.5,
+    "reviews": 189,
+    "features": ["Wireless", "40h Battery", "Customizable", "Hair Triggers"]
+  }
+]

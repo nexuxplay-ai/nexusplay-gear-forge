@@ -6,6 +6,8 @@ import { Moon, Sun, Menu, X, Zap, ShoppingBag, Crown, Key, Download, User, LogOu
 import AuthModal from "./AuthModal";
 import CartModal from "./CartModal";
 import NexusAI from "./NexusAI";
+import Footer from "./Footer";
+import InstallPrompt from "./InstallPrompt";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const [darkMode, setDarkMode] = useState(true);
@@ -33,6 +35,19 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     const savedCart = localStorage.getItem('nexus_cart');
     if (savedCart) {
       setCart(JSON.parse(savedCart));
+    }
+
+    // Register service worker
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/serviceWorker.js')
+          .then((registration) => {
+            console.log('SW registered: ', registration);
+          })
+          .catch((registrationError) => {
+            console.log('SW registration failed: ', registrationError);
+          });
+      });
     }
   }, []);
 
@@ -225,28 +240,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <NexusAI context={getAIContext()} />
 
       {/* Footer */}
-      <footer className="bg-card border-t border-border mt-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <div className="text-center">
-            <div className="flex items-center justify-center space-x-2 mb-4">
-              <div className="w-6 h-6 bg-gradient-primary rounded-lg flex items-center justify-center">
-                <Zap className="w-4 h-4 text-primary-foreground" />
-              </div>
-              <span className="text-lg font-bold bg-gradient-primary bg-clip-text text-transparent">
-                NexusPlay.io
-              </span>
-            </div>
-            <p className="text-muted-foreground text-sm mb-2">
-              © 2024 NexusPlay.io. Optimize your gaming experience.
-            </p>
-            <div className="animate-fade-in">
-              <p className="text-muted-foreground text-sm">
-                Contact: <span className="text-primary hover-scale inline-block cursor-pointer">Olamidepeniel@gmail.com</span>
-              </p>
-            </div>
-          </div>
-        </div>
-      </footer>
+      <Footer />
+
+      {/* Install Prompt */}
+      <InstallPrompt />
     </div>
   );
 }

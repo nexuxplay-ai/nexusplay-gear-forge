@@ -8,6 +8,9 @@ import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Download, Lock, Unlock, Monitor, Smartphone, Server, Zap, Shield, Cpu, HardDrive, Crown } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import GPUTweaks from "@/components/optimization/GPUTweaks";
+import SystemTweaks from "@/components/optimization/SystemTweaks";
+import PowerTweaks from "@/components/optimization/PowerTweaks";
 
 
 export default function Optimizer() {
@@ -319,7 +322,16 @@ export default function Optimizer() {
             </TabsTrigger>
           </TabsList>
 
-          <TabsContent value="windows" className="space-y-6">
+          <TabsContent value="windows" className="space-y-8">
+            {/* GPU Tweaks */}
+            <GPUTweaks />
+
+            {/* System Tweaks */}
+            <SystemTweaks />
+
+            {/* Power Tweaks */}
+            <PowerTweaks />
+
             {/* Basic Optimizations */}
             <div>
               <h3 className="text-xl font-semibold mb-4 flex items-center space-x-2">
