@@ -48,7 +48,7 @@ const Index = () => {
           
           <h1 className="text-5xl md:text-7xl font-bold mb-6">
             Optimize Your Game.{" "}
-            <span className="bg-gradient-primary bg-clip-text text-transparent [-webkit-background-clip:text] [-webkit-text-fill-color:transparent] text-primary">itsDominate Your Competition.</span>
+            <span className="bg-gradient-primary bg-clip-text text-transparent [-webkit-background-clip:text] [-webkit-text-fill-color:transparent] text-primary">lets Dominate Your Competition.</span>
           </h1>
           
           <p className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-3xl mx-auto">
