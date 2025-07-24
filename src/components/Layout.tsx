@@ -90,7 +90,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               <div className="w-8 h-8 bg-gradient-primary rounded-lg flex items-center justify-center">
                 <Zap className="w-5 h-5 text-primary-foreground" />
               </div>
-              <span className="text-xl font-bold bg-gradient-primary bg-clip-text text-transparent">
+              <span className="text-xl font-bold text-foreground bg-gradient-primary bg-clip-text [-webkit-background-clip:text] [-webkit-text-fill-color:transparent]">
                 NexusPlay.io
               </span>
             </Link>
