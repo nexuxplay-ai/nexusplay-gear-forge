@@ -7,7 +7,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Brand Section */}
           <div className="space-y-4">
-            <h3 className="text-xl font-bold bg-gradient-primary bg-clip-text text-transparent">
+            <h3 className="text-xl font-bold text-foreground bg-gradient-primary bg-clip-text [-webkit-background-clip:text] [-webkit-text-fill-color:transparent]">
               NexusPlay.io
             </h3>
             <p className="text-muted-foreground text-sm">
