@@ -106,4 +106,29 @@
   .hover-scale:hover {
     transform: scale(1.05);
   }
+  
+  .bg-gradient-hero {
+    background: linear-gradient(135deg, hsl(var(--background)), hsl(var(--card)));
+  }
+  
+  .bg-gradient-card {
+    background: hsl(var(--card));
+    border: 1px solid hsl(var(--border));
+  }
+  
+  .text-gaming-green {
+    color: hsl(var(--gaming-accent));
+  }
+  
+  .bg-gaming-green {
+    background-color: hsl(var(--gaming-accent));
+  }
+  
+  .bg-gaming-green\/10 {
+    background-color: hsl(var(--gaming-accent) / 0.1);
+  }
+  
+  .border-gaming-green\/20 {
+    border-color: hsl(var(--gaming-accent) / 0.2);
+  }
 }
