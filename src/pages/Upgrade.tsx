@@ -137,7 +137,7 @@ export default function Upgrade() {
         {/* Header */}
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold mb-4">
-            Upgrade to <span className="bg-gradient-primary bg-clip-text text-transparent">Pro</span>
+            Upgrade to <span className="bg-gradient-primary bg-clip-text text-transparent [-webkit-background-clip:text] [-webkit-text-fill-color:transparent] text-primary">Pro</span>
           </h1>
           <p className="text-muted-foreground max-w-2xl mx-auto text-lg">
             Unlock advanced gaming optimizations and exclusive features to dominate your competition.

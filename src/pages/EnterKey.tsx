@@ -93,7 +93,7 @@ export default function EnterKey() {
         {/* Header */}
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold mb-4">
-            Enter Pro <span className="bg-gradient-primary bg-clip-text text-transparent">Key</span>
+            Enter Pro <span className="bg-gradient-primary bg-clip-text text-transparent [-webkit-background-clip:text] [-webkit-text-fill-color:transparent] text-primary">Key</span>
           </h1>
           <p className="text-muted-foreground">
             Activate your NexusPlay Pro license to unlock advanced optimizations.

@@ -252,7 +252,7 @@ export default function Optimizer() {
         {/* Header */}
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold mb-4">
-            Game <span className="bg-gradient-primary bg-clip-text text-transparent">Optimizer</span>
+            Game <span className="bg-gradient-primary bg-clip-text text-transparent [-webkit-background-clip:text] [-webkit-text-fill-color:transparent] text-primary">Optimizer</span>
           </h1>
           <p className="text-muted-foreground max-w-2xl mx-auto">
             Optimize your system for maximum gaming performance across Windows, Android, and Linux platforms.
