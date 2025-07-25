@@ -8,6 +8,7 @@ import CartModal from "./CartModal";
 import NexusAI from "./NexusAI";
 import Footer from "./Footer";
 import InstallPrompt from "./InstallPrompt";
+import FPSCounter from "./FPSCounter";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const [darkMode, setDarkMode] = useState(true);
@@ -244,6 +245,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
       {/* Install Prompt */}
       <InstallPrompt />
+      
+      {/* FPS Counter */}
+      <FPSCounter />
     </div>
   );
 }
