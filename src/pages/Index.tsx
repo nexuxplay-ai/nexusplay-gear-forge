@@ -96,7 +96,7 @@ const Index = () => {
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold mb-4">
               Everything You Need to{" "}
-              <span className="bg-gradient-primary bg-clip-text text-transparent">Excel</span>
+              <span className="bg-gradient-primary bg-clip-text text-transparent [-webkit-background-clip:text] [-webkit-text-fill-color:transparent] text-primary">Excel</span>
             </h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
               From system optimization to premium gaming gear, we've got your setup covered.
@@ -129,7 +129,7 @@ const Index = () => {
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-3xl font-bold mb-8">
             Join the{" "}
-            <span className="bg-gradient-primary bg-clip-text text-transparent">Community</span>
+            <span className="bg-gradient-primary bg-clip-text text-transparent [-webkit-background-clip:text] [-webkit-text-fill-color:transparent] text-primary">Community</span>
           </h2>
           <p className="text-muted-foreground mb-8">
             Connect with fellow gamers and stay updated with the latest features
