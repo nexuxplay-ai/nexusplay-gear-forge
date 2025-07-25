@@ -2,17 +2,42 @@
 {
   "name": "NexusPlay Gaming Optimizer",
   "short_name": "NexusPlay",
-  "description": "The ultimate gaming optimization and gear platform",
+  "description": "The ultimate gaming optimization and gear platform for Windows, Mac, and Linux",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#0f0f0f",
   "theme_color": "#8b5cf6",
+  "orientation": "any",
+  "scope": "/",
+  "categories": ["games", "utilities", "productivity"],
+  "shortcuts": [
+    {
+      "name": "Optimizer",
+      "short_name": "Optimize",
+      "description": "Launch game optimizer",
+      "url": "/optimizer",
+      "icons": [{ "src": "/placeholder.svg", "sizes": "96x96" }]
+    },
+    {
+      "name": "Gear Store",
+      "short_name": "Gear",
+      "description": "Browse gaming gear",
+      "url": "/gear",
+      "icons": [{ "src": "/placeholder.svg", "sizes": "96x96" }]
+    }
+  ],
   "icons": [
     {
       "src": "/placeholder.svg",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any maskable"
+    },
+    {
+      "src": "/placeholder.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any"
     }
   ]
 }
