@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Moon, Sun, Menu, X, Zap, ShoppingBag, Crown, Key, Download, User, LogOut } from "lucide-react";
+import { Moon, Sun, Menu, X, Zap, ShoppingBag, Crown, Key, Download, User, LogOut, Home, Monitor, Settings } from "lucide-react";
 import AuthModal from "./AuthModal";
 import CartModal from "./CartModal";
 import NexusAI from "./NexusAI";
@@ -73,7 +74,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   };
 
   const navItems = [
-    { name: "Home", href: "/", icon: Zap },
+    { name: "Home", href: "/", icon: Home },
     { name: "Optimizer", href: "/optimizer", icon: Zap },
     { name: "Gear Store", href: "/gear", icon: ShoppingBag },
     { name: "Go Pro", href: "/upgrade", icon: Crown },
@@ -83,15 +84,24 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-screen bg-background">
       {/* Navigation */}
-      <nav className="sticky top-0 z-50 bg-card/95 backdrop-blur border-b border-border">
+      <motion.nav 
+        className="sticky top-0 z-50 glass border-b border-border/50"
+        initial={{ y: -100 }}
+        animate={{ y: 0 }}
+        transition={{ duration: 0.6 }}
+      >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             {/* Logo */}
-            <Link to="/" className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-gradient-primary rounded-lg flex items-center justify-center">
+            <Link to="/" className="flex items-center space-x-2 hover-scale">
+              <motion.div 
+                className="w-8 h-8 bg-gradient-primary rounded-lg flex items-center justify-center shadow-glow"
+                whileHover={{ rotate: 360 }}
+                transition={{ duration: 0.6 }}
+              >
                 <Zap className="w-5 h-5 text-primary-foreground" />
-              </div>
-              <span className="text-xl font-bold text-foreground bg-gradient-primary bg-clip-text [-webkit-background-clip:text] [-webkit-text-fill-color:transparent]">
+              </motion.div>
+              <span className="text-xl font-bold bg-gradient-primary bg-clip-text text-transparent">
                 NexusPlay.io
               </span>
             </Link>
@@ -104,10 +114,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                   <Link
                     key={item.href}
                     to={item.href}
-                    className={`flex items-center space-x-1 px-3 py-2 rounded-lg transition-all ${
+                    className={`flex items-center space-x-1 px-3 py-2 rounded-lg transition-all hover-scale ${
                       location.pathname === item.href
-                        ? "bg-primary text-primary-foreground shadow-gaming"
-                        : "text-muted-foreground hover:text-foreground hover:bg-muted"
+                        ? "bg-gradient-primary text-primary-foreground shadow-glow"
+                        : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
                     }`}
                   >
                     <Icon className="w-4 h-4" />
@@ -121,11 +131,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 variant="ghost"
                 size="sm"
                 onClick={() => setCartModalOpen(true)}
-                className="relative"
+                className="relative hover-scale"
               >
                 <ShoppingBag className="w-4 h-4" />
                 {cart.length > 0 && (
-                  <Badge className="absolute -top-2 -right-2 w-5 h-5 p-0 flex items-center justify-center text-xs">
+                  <Badge className="absolute -top-2 -right-2 w-5 h-5 p-0 flex items-center justify-center text-xs bg-gradient-primary shadow-glow">
                     {cart.reduce((sum, item) => sum + item.quantity, 0)}
                   </Badge>
                 )}
@@ -136,13 +146,13 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 variant="ghost"
                 size="sm"
                 onClick={() => setDarkMode(!darkMode)}
-                className="w-9 h-9 p-0"
+                className="w-9 h-9 p-0 hover-scale hover-glow"
               >
-                {darkMode ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+                {darkMode ? <Sun className="w-4 h-4 text-gaming-cyan" /> : <Moon className="w-4 h-4 text-gaming-purple" />}
               </Button>
 
               {/* Download Button */}
-              <Button variant="outline" size="sm" className="w-9 h-9 p-0 hover-scale">
+              <Button variant="outline" size="sm" className="w-9 h-9 p-0 hover-scale neon-border">
                 <Download className="w-4 h-4" />
               </Button>
 
@@ -167,7 +177,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                   variant="default"
                   size="sm"
                   onClick={() => setAuthModalOpen(true)}
-                  className="bg-gradient-primary"
+                  className="bg-gradient-primary shadow-glow hover-scale"
                 >
                   Login / Sign Up
                 </Button>
@@ -219,7 +229,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             </div>
           )}
         </div>
-      </nav>
+      </motion.nav>
 
       {/* Main Content */}
       <main>{children}</main>
