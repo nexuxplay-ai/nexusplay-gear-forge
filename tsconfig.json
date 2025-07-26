@@ -1,23 +1,86 @@
 {
-  "include": ["client/src/**/*", "shared/**/*", "server/**/*"],
-  "exclude": ["node_modules", "build", "dist", "**/*.test.ts"],
   "compilerOptions": {
-    "incremental": true,
-    "tsBuildInfoFile": "./node_modules/typescript/tsbuildinfo",
-    "noEmit": true,
+    "target": "ES2022",
+    "lib": ["DOM", "DOM.Iterable", "ES2022"],
     "module": "ESNext",
-    "strict": true,
-    "lib": ["esnext", "dom", "dom.iterable"],
-    "jsx": "preserve",
+    "moduleResolution": "Bundler",
+    "allowJs": true,
+    "checkJs": false,
+    "declaration": true,
+    "declarationMap": true,
+    "emitDeclarationOnly": false,
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "removeComments": true,
+    "importHelpers": true,
+    "isolatedModules": true,
+    "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
+    "preserveSymlinks": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedIndexedAccess": true,
+    "noImplicitOverride": true,
+    "exactOptionalPropertyTypes": true,
     "skipLibCheck": true,
-    "allowImportingTsExtensions": true,
-    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "jsx": "preserve",
+    "incremental": true,
     "baseUrl": ".",
-    "types": ["node", "vite/client"],
     "paths": {
-      "@/*": ["./client/src/*"],
-      "@shared/*": ["./shared/*"]
+      "@nexusplay/ui": ["./packages/ui/src"],
+      "@nexusplay/ui/*": ["./packages/ui/src/*"],
+      "@nexusplay/core": ["./packages/core/src"],
+      "@nexusplay/core/*": ["./packages/core/src/*"],
+      "@nexusplay/api": ["./packages/api/src"],
+      "@nexusplay/api/*": ["./packages/api/src/*"]
+    },
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
+  },
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.js",
+    "**/*.jsx",
+    ".next/types/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "**/node_modules",
+    "dist",
+    "**/dist",
+    "build",
+    "**/build",
+    ".next",
+    "**/.next",
+    "android",
+    "**/android",
+    "ios",
+    "**/ios",
+    "coverage",
+    "**/coverage"
+  ],
+  "references": [
+    {
+      "path": "./packages/core"
+    },
+    {
+      "path": "./packages/ui"
+    },
+    {
+      "path": "./packages/api"
+    },
+    {
+      "path": "./apps/web"
+    },
+    {
+      "path": "./apps/desktop"
     }
-  }
+  ]
 }

@@ -1,263 +1,338 @@
-# NexusPlay - Premium Gaming Optimization Platform
+# NexusPlay Enterprise Platform
 
-🎮 **The ultimate gaming optimization and gear platform for Web, Desktop, and Mobile**
+🎮 **Enterprise-grade gaming optimization platform with multi-platform support**
 
-NexusPlay is a comprehensive gaming optimization platform that transforms your system performance with real-time monitoring, premium optimizations, and a sleek Surge.ovh-inspired interface.
+A modern monorepo built with **Turborepo**, **Next.js 14**, **Electron**, and **Capacitor** for web, desktop, and mobile deployment.
 
-## ✨ Features
+## 🏗 Architecture Overview
 
-### 🔧 **Advanced System Optimization**
-- **Real-time System Monitoring** - Live CPU, GPU, RAM, and network monitoring with beautiful visualizations
-- **Multi-tier Optimization** - Free, Pro Tier 1, and Pro Tier 2 optimizations
-- **Platform Support** - Windows, Android, and Linux optimization profiles
-- **Background Processing** - Service worker-powered background optimizations
+```
+NexusPlay/
+├─ apps/
+│   ├─ web/            # Next.js 14 PWA (Vercel deployment)
+│   ├─ desktop/        # Electron app (Windows/macOS/Linux)
+│   └─ mobile/         # Capacitor mobile (iOS/Android)
+│
+├─ packages/
+│   ├─ ui/             # Shared React components + design system
+│   ├─ core/           # Business logic + optimization engine
+│   └─ api/            # Backend services + database
+│
+├─ .github/workflows/  # CI/CD automation
+└─ scripts/            # Build & deployment scripts
+```
 
-### 🌐 **Progressive Web App (PWA)**
-- **Full Offline Support** - Advanced service worker with comprehensive caching strategies
-- **Installable** - Install as a native app on any device
-- **Background Sync** - Continue optimizations even when offline
-- **Push Notifications** - Get notified when optimizations complete
+## ✨ Enterprise Features
 
-### 💻 **Multi-Platform Support**
+### 🌐 **Multi-Platform Applications**
+- **Web App**: Next.js 14 with App Router, PWA support, and Vercel deployment
+- **Desktop App**: Electron with auto-updates, native menus, and system tray
+- **Mobile Apps**: Capacitor for iOS and Android with native plugins
 
-#### Web Application
-- Responsive design for all screen sizes
-- Advanced PWA capabilities
-- Real-time system monitoring
-- Premium dark theme with animated backgrounds
+### 🔧 **Advanced Optimization Engine**
+- **Real-time System Monitoring** with WebGL-accelerated visualizations
+- **AI-powered Hardware Detection** and automatic optimization recommendations
+- **Multi-tier License System** with encrypted validation and feature gating
+- **Background Optimization Tasks** with service worker integration
 
-#### Desktop Application (Electron)
-- Native desktop experience
-- System tray integration
-- Native menus and keyboard shortcuts
-- Deep system integration for optimizations
+### 🎨 **Premium UI/UX Design**
+- **Surge.ovh-inspired interface** with glassmorphism and neumorphism
+- **Framer Motion animations** with 60fps performance
+- **Real-time data visualization** using Recharts and custom WebGL components
+- **Dark/light theming** with smooth transitions
 
-#### Mobile Applications (Capacitor)
-- iOS and Android support
-- Native device optimizations
-- Mobile-specific gaming features
-- Touch-optimized interface
-
-### 🔐 **Premium License System**
-- Secure license key validation
-- Multiple tier support (Tier 1 & Tier 2)
-- Feature gating for premium optimizations
-- Local and cloud license storage
-
-### 🎨 **Premium UI/UX**
-- **Surge.ovh-inspired design** with modern glassmorphism
-- **Real-time data visualization** with animated charts
-- **Premium dark theme** with purple/pink gradients
-- **Smooth animations** and micro-interactions
+### 🚀 **Enterprise Development**
+- **Turborepo monorepo** with intelligent caching and parallel execution
+- **TypeScript throughout** with strict type checking and Zod validation
+- **Automated CI/CD** with GitHub Actions for all platforms
+- **Code quality tools** including ESLint, Prettier, and Vitest
 
 ## 🚀 Quick Start
 
 ### Prerequisites
-- Node.js 18+ 
-- npm or yarn
+- **Node.js 20+** with npm
+- **Git** for version control
+- **Docker** (optional, for containerized development)
 
-### Development Setup
+### Installation
 
-1. **Install dependencies**
 ```bash
+# Clone the repository
+git clone https://github.com/nexusplay/platform.git
+cd platform
+
+# Install dependencies and build packages
 npm install
-```
+npm run setup
 
-2. **Start development server**
-```bash
+# Start all applications in development
 npm run dev
 ```
 
-3. **Access the application**
-- Web: `http://localhost:3000`
-- The app will automatically register the service worker and PWA features
+### Development URLs
+- **Web App**: http://localhost:3000
+- **Desktop App**: Electron window opens automatically
+- **Mobile App**: Use device simulators or physical devices
 
-### Desktop Development
+## 🛠 Development Commands
 
-1. **Install Electron dependencies**
+### Global Commands
 ```bash
-npm install electron electron-builder --save-dev
+npm run dev          # Start all apps in development
+npm run build        # Build all apps for production
+npm run check        # TypeScript type checking
+npm run lint         # ESLint code quality check
+npm run test         # Run all tests
+npm run clean        # Clean all build artifacts
 ```
 
-2. **Start Electron app**
+### Application-Specific Commands
 ```bash
-npm run electron:dev
+# Web App (Next.js)
+npm run dev --workspace=@nexusplay/web
+npm run build:web
+
+# Desktop App (Electron)
+npm run dev --workspace=@nexusplay/desktop
+npm run build:desktop
+npm run electron:build    # Package for distribution
+
+# Mobile App (Capacitor)
+npm run build:mobile
+npm run build:android     # Build Android APK
+npm run build:ios         # Build iOS app
 ```
 
-### Mobile Development
-
-1. **Add mobile platforms**
+### Package Development
 ```bash
-# Android
-npm run cap:add:android
+# UI Package
+npm run dev --workspace=@nexusplay/ui
+npm run build --workspace=@nexusplay/ui
 
-# iOS  
-npm run cap:add:ios
+# Core Package
+npm run dev --workspace=@nexusplay/core
+npm run test --workspace=@nexusplay/core
+
+# API Package
+npm run dev --workspace=@nexusplay/api
+npm run start --workspace=@nexusplay/api
 ```
 
-2. **Build and sync**
+## 📦 Package Structure
+
+### `@nexusplay/ui` - Shared Design System
+- **Radix UI components** with custom styling
+- **Framer Motion animations** and micro-interactions
+- **Tailwind CSS** with custom design tokens
+- **Storybook documentation** (coming soon)
+
+### `@nexusplay/core` - Business Logic
+- **Optimization engine** with hardware detection
+- **License management** with encryption and validation
+- **Type definitions** with Zod schemas
+- **Utility functions** for all platforms
+
+### `@nexusplay/api` - Backend Services
+- **Express.js server** with TypeScript
+- **PostgreSQL database** with Drizzle ORM
+- **Authentication** with Passport.js
+- **WebSocket support** for real-time features
+
+## 🌐 Deployment
+
+### Web App (Vercel)
 ```bash
-npm run cap:build:android
-npm run cap:build:ios
+# Automatic deployment on push to main
+git push origin main
+
+# Manual deployment
+npm run build:web
+vercel --prod
 ```
 
-3. **Run on device**
+### Desktop App (GitHub Releases)
 ```bash
-npm run cap:run:android
-npm run cap:run:ios
+# Automatic builds for all platforms
+npm run build:desktop
+
+# Manual packaging
+npm run electron:build
 ```
 
-## 📱 Installation
-
-### Web App Installation
-1. Visit the app in a modern browser
-2. Look for the install prompt banner
-3. Click "Install" to add to home screen/desktop
-
-### Desktop Installation
-1. Download the latest release for your platform
-2. Run the installer
-3. Launch from desktop shortcut or start menu
-
-### Mobile Installation
-- **Android**: Install from Google Play Store or sideload APK
-- **iOS**: Install from App Store or via TestFlight
-
-## 🛠 Build Commands
-
+### Mobile App (App Stores)
 ```bash
-# Development
-npm run dev                 # Start development server
-npm run electron:dev        # Start Electron in development
+# Android (Google Play Console)
+npm run build:android
+# Upload APK/AAB to Play Console
 
-# Building
-npm run build              # Build web application
-npm run electron:build     # Build Electron app for all platforms
-npm run electron:pack      # Build Electron app for current platform
-
-# Mobile
-npm run cap:sync          # Sync web build with mobile platforms
-npm run cap:build:android # Build Android APK/AAB
-npm run cap:build:ios     # Build iOS app
-
-# Quality
-npm run check             # TypeScript type checking
+# iOS (App Store Connect)
+npm run build:ios
+# Upload to App Store Connect via Xcode
 ```
 
-## 🏗 Architecture
+## 🔐 Environment Configuration
 
-### Frontend Stack
-- **React 18** with TypeScript
-- **Vite** for blazing fast development
-- **Tailwind CSS** for styling
-- **Wouter** for routing
-- **Framer Motion** for animations
-- **Radix UI** for accessible components
+### Required Environment Variables
+```env
+# Database
+DATABASE_URL=postgresql://...
 
-### Backend Stack
-- **Express.js** server
-- **TypeScript** throughout
-- **PostgreSQL** with Drizzle ORM
-- **WebSockets** for real-time data
+# License System
+NEXUS_LICENSE_SECRET=your-secret-key
 
-### Platform Integration
-- **Service Workers** for PWA functionality
-- **Electron** for desktop applications  
-- **Capacitor** for mobile applications
-- **Background Sync** for offline capabilities
+# Stripe (for payments)
+STRIPE_SECRET_KEY=sk_...
+STRIPE_PUBLISHABLE_KEY=pk_...
 
-### Real-time Features
-- Live system monitoring with 1-second updates
-- WebSocket connections for real-time data
-- Service worker background processing
-- Push notifications for optimization updates
+# Vercel (for web deployment)
+VERCEL_TOKEN=...
+VERCEL_ORG_ID=...
+VERCEL_PROJECT_ID=...
 
-## 🔧 System Requirements
-
-### Web Application
-- **Modern browser** with Service Worker support
-- **2GB RAM** minimum
-- **Stable internet connection** (works offline after first load)
-
-### Desktop Application  
-- **Windows 10+**, **macOS 10.14+**, or **Linux** (Ubuntu 18.04+)
-- **4GB RAM** minimum, 8GB recommended
-- **500MB** available disk space
-
-### Mobile Application
-- **Android 8.0+** (API level 26) or **iOS 12.0+**
-- **2GB RAM** minimum
-- **100MB** available storage
-
-## 🎮 Gaming Optimizations
-
-### Free Tier
-- ✅ Basic Windows optimizations
-- ✅ VSync disabled for lower latency
-- ✅ Fullscreen optimization
-- ✅ High performance power mode
-- ✅ Basic system monitoring
-
-### Pro Tier 1 ($9.99/month)
-- ✅ All Free Tier features
-- ✅ Advanced CPU optimization
-- ✅ RAM management and allocation
-- ✅ Network latency reduction
-- ✅ Disk performance optimization
-- ✅ Real-time system monitoring
-
-### Pro Tier 2 ($19.99/month)
-- ✅ All Tier 1 features  
-- ✅ Advanced registry modifications
-- ✅ Windows service optimization
-- ✅ Custom performance profiles
-- ✅ Background optimization tasks
-- ✅ Priority support
-
-## 🔐 License Keys
-
-Test license keys for development:
-
+# Turbo (for caching)
+TURBO_TOKEN=...
+TURBO_TEAM=...
 ```
-NEXUS-PRO-DEMO        # Pro Tier 1
-NEXUS-PRO-T2-DEMO     # Pro Tier 2
+
+### Development Setup
+```bash
+# Copy environment template
+cp .env.example .env.local
+
+# Edit with your values
+nano .env.local
+```
+
+## 🧪 Testing Strategy
+
+### Unit Tests
+```bash
+npm run test                    # All packages
+npm run test --workspace=@nexusplay/core
+```
+
+### Integration Tests
+```bash
+npm run test:integration        # API endpoints
+npm run test:e2e               # End-to-end with Playwright
+```
+
+### Performance Testing
+```bash
+npm run lighthouse             # Web performance audit
+npm run bundle-analyzer        # Bundle size analysis
+```
+
+## 📊 Performance Monitoring
+
+### Web Vitals Tracking
+- **Core Web Vitals** monitoring with Vercel Analytics
+- **Real User Monitoring** with custom telemetry
+- **Error tracking** with integrated error boundaries
+
+### Desktop Performance
+- **Native performance APIs** for system monitoring
+- **Memory usage tracking** with Electron metrics
+- **Crash reporting** with automatic uploads
+
+### Mobile Optimization
+- **Native performance plugins** for iOS/Android
+- **Battery usage optimization** with background task management
+- **Network usage monitoring** with offline capabilities
+
+## 🔧 Advanced Features
+
+### AI-Powered Optimization
+```typescript
+import { OptimizationEngine } from '@nexusplay/core';
+
+const engine = new OptimizationEngine();
+const recommendations = await engine.analyzeSystem();
+await engine.applyOptimizations(recommendations);
+```
+
+### Real-time System Monitoring
+```typescript
+import { SystemMonitor } from '@nexusplay/ui';
+
+function App() {
+  return <SystemMonitor realTime={true} updateInterval={1000} />;
+}
+```
+
+### License Management
+```typescript
+import { LicenseManager } from '@nexusplay/core';
+
+const license = await LicenseManager.validateKey('NEXUS-PRO-XXXX');
+const hasFeature = LicenseManager.hasFeature(license, 'cpu_optimization');
 ```
 
 ## 🤝 Contributing
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+### Development Workflow
+1. **Fork** the repository
+2. **Create** a feature branch (`git checkout -b feature/amazing-feature`)
+3. **Commit** your changes (`git commit -m 'Add amazing feature'`)
+4. **Push** to the branch (`git push origin feature/amazing-feature`)
+5. **Open** a Pull Request
+
+### Code Standards
+- **TypeScript** for all new code
+- **ESLint + Prettier** for formatting
+- **Conventional Commits** for commit messages
+- **100% test coverage** for core business logic
+
+### Pull Request Checklist
+- [ ] Tests pass (`npm run test`)
+- [ ] Type checking passes (`npm run check`)
+- [ ] Linting passes (`npm run lint`)
+- [ ] Build succeeds (`npm run build`)
+- [ ] Documentation updated
+
+## 📈 Roadmap
+
+### Q1 2025
+- [ ] **WebAssembly optimization engine** for better performance
+- [ ] **3D system visualization** with Three.js integration
+- [ ] **Advanced preset system** with community sharing
+- [ ] **Plugin architecture** for third-party extensions
+
+### Q2 2025
+- [ ] **AI-powered automatic optimization** with machine learning
+- [ ] **Cross-platform sync** with cloud storage
+- [ ] **Professional dashboard** with analytics and insights
+- [ ] **Enterprise licensing** with team management
+
+### Q3 2025
+- [ ] **VR/AR optimization tools** for next-gen gaming
+- [ ] **Streaming optimization** for content creators
+- [ ] **Hardware marketplace** integration
+- [ ] **Community features** with optimization sharing
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
 
 ## 🆘 Support
 
-- **Documentation**: [docs.nexusplay.app](https://docs.nexusplay.app)
+### Documentation
+- **API Reference**: [docs.nexusplay.app/api](https://docs.nexusplay.app/api)
+- **User Guide**: [docs.nexusplay.app/guide](https://docs.nexusplay.app/guide)
+- **Developer Docs**: [docs.nexusplay.app/dev](https://docs.nexusplay.app/dev)
+
+### Community
 - **Discord**: [Join our community](https://discord.gg/nexusplay)
-- **Email**: support@nexusplay.app
-- **GitHub Issues**: [Report bugs](https://github.com/nexusplay/issues)
+- **GitHub Discussions**: [Ask questions](https://github.com/nexusplay/platform/discussions)
+- **Stack Overflow**: Use tag `nexusplay`
 
-## 🔄 Changelog
-
-### v2.0.0 - Enhanced PWA & Multi-Platform Release
-- ✨ Advanced service worker with comprehensive caching
-- ✨ Real-time system monitoring with live charts
-- ✨ Electron desktop application support
-- ✨ Capacitor mobile application support  
-- ✨ Premium Surge.ovh-inspired UI redesign
-- ✨ Enhanced offline functionality
-- ✨ Multi-tier license system
-- ✨ Background optimization processing
-- ✨ Push notification support
-- ✨ Auto-update mechanisms
+### Enterprise Support
+- **Email**: enterprise@nexusplay.app
+- **Slack Connect**: Available for enterprise customers
+- **Dedicated support portal**: [support.nexusplay.app](https://support.nexusplay.app)
 
 ---
 
-**Made with ❤️ by the NexusPlay Team**
+**Built with ❤️ by the NexusPlay Team**
 
-Transform your gaming experience with professional-grade optimizations. Download NexusPlay today!
+Transform your gaming experience with enterprise-grade optimization tools. Experience the future of gaming performance today.

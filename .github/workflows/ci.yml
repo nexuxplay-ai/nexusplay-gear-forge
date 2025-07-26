@@ -1,0 +1,282 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+  TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
+
+jobs:
+  quality:
+    name: Code Quality
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build packages
+        run: npm run build --filter=@nexusplay/ui --filter=@nexusplay/core
+
+      - name: Type check
+        run: npm run check
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Format check
+        run: npm run format -- --check
+
+      - name: Test
+        run: npm run test
+
+  build-web:
+    name: Build Web App
+    runs-on: ubuntu-latest
+    needs: quality
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build web app
+        run: npm run build:web
+        env:
+          NEXT_TELEMETRY_DISABLED: 1
+
+      - name: Upload web build
+        uses: actions/upload-artifact@v4
+        with:
+          name: web-build
+          path: apps/web/.next
+          retention-days: 7
+
+  build-desktop:
+    name: Build Desktop App
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    needs: quality
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build desktop app
+        run: npm run build:desktop
+
+      - name: Package Electron app
+        run: npm run build:electron --workspace=@nexusplay/desktop
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload desktop build
+        uses: actions/upload-artifact@v4
+        with:
+          name: desktop-build-${{ matrix.os }}
+          path: apps/desktop/build
+          retention-days: 7
+
+  build-mobile:
+    name: Build Mobile App
+    runs-on: ubuntu-latest
+    needs: quality
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build mobile app
+        run: npm run build:mobile
+
+      - name: Build Android APK
+        run: npm run build:android --workspace=@nexusplay/mobile
+
+      - name: Upload mobile build
+        uses: actions/upload-artifact@v4
+        with:
+          name: mobile-build
+          path: apps/mobile/android/app/build/outputs
+          retention-days: 7
+
+  deploy-web:
+    name: Deploy Web App
+    runs-on: ubuntu-latest
+    needs: build-web
+    if: github.ref == 'refs/heads/main'
+    environment: production
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Download web build
+        uses: actions/download-artifact@v4
+        with:
+          name: web-build
+          path: apps/web/.next
+
+      - name: Deploy to Vercel
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          working-directory: apps/web
+          vercel-args: '--prod'
+
+  deploy-desktop:
+    name: Deploy Desktop App
+    runs-on: ubuntu-latest
+    needs: build-desktop
+    if: github.ref == 'refs/heads/main'
+    environment: production
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Download desktop builds
+        uses: actions/download-artifact@v4
+        with:
+          pattern: desktop-build-*
+          merge-multiple: true
+          path: releases
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ github.run_number }}
+          name: NexusPlay Desktop v${{ github.run_number }}
+          body: |
+            ## 🚀 NexusPlay Desktop Release
+            
+            ### What's New
+            - Latest optimizations and performance improvements
+            - Enhanced system monitoring
+            - Bug fixes and stability improvements
+            
+            ### Download
+            - **Windows**: Download the `.exe` installer
+            - **macOS**: Download the `.dmg` file
+            - **Linux**: Download the `.AppImage` or `.deb` package
+            
+            ### System Requirements
+            - **Windows**: Windows 10 or later
+            - **macOS**: macOS 10.14 or later
+            - **Linux**: Ubuntu 18.04 or equivalent
+          files: releases/**/*
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  security:
+    name: Security Scan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          scan-ref: '.'
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+
+      - name: Upload Trivy scan results
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: 'trivy-results.sarif'
+
+  lighthouse:
+    name: Lighthouse Audit
+    runs-on: ubuntu-latest
+    needs: build-web
+    if: github.event_name == 'pull_request'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build web app
+        run: npm run build:web
+
+      - name: Start web server
+        run: npm run start --workspace=@nexusplay/web &
+        env:
+          PORT: 3000
+
+      - name: Wait for server
+        run: npx wait-on http://localhost:3000
+
+      - name: Run Lighthouse
+        uses: treosh/lighthouse-ci-action@v12
+        with:
+          urls: |
+            http://localhost:3000
+            http://localhost:3000/optimizer
+            http://localhost:3000/gear
+          configPath: ./.github/lighthouse/config.json
+          uploadArtifacts: true
+          temporaryPublicStorage: true

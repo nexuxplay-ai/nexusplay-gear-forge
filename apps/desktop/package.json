@@ -1,0 +1,105 @@
+{
+  "name": "@nexusplay/desktop",
+  "version": "2.0.0",
+  "private": true,
+  "description": "NexusPlay Electron desktop application",
+  "main": "dist/main.js",
+  "scripts": {
+    "dev": "concurrently \"npm run dev:renderer\" \"npm run dev:main\"",
+    "dev:renderer": "npm run dev --workspace=@nexusplay/web",
+    "dev:main": "tsx watch src/main.ts",
+    "build": "npm run build:renderer && npm run build:main",
+    "build:renderer": "npm run build --workspace=@nexusplay/web",
+    "build:main": "tsc && esbuild src/main.ts --platform=node --bundle --outfile=dist/main.js --external:electron",
+    "build:electron": "npm run build && electron-builder",
+    "build:electron:dir": "npm run build && electron-builder --dir",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder",
+    "start": "electron .",
+    "check": "tsc --noEmit",
+    "clean": "rm -rf dist .turbo build"
+  },
+  "dependencies": {
+    "@nexusplay/core": "workspace:*",
+    "electron-log": "^5.2.0",
+    "electron-store": "^10.0.0",
+    "electron-updater": "^6.3.9"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.0",
+    "concurrently": "^8.2.0",
+    "esbuild": "^0.25.0",
+    "electron": "^32.2.0",
+    "electron-builder": "^25.1.8",
+    "tsx": "^4.19.1",
+    "typescript": "^5.5.0"
+  },
+  "build": {
+    "appId": "com.nexusplay.app",
+    "productName": "NexusPlay",
+    "directories": {
+      "output": "build"
+    },
+    "files": [
+      "dist/**/*",
+      "node_modules/**/*",
+      "package.json"
+    ],
+    "extraResources": [
+      {
+        "from": "../../apps/web/.next",
+        "to": "web",
+        "filter": ["**/*"]
+      }
+    ],
+    "mac": {
+      "category": "public.app-category.games",
+      "hardenedRuntime": true,
+      "gatekeeperAssess": false,
+      "entitlements": "build/entitlements.mac.plist",
+      "entitlementsInherit": "build/entitlements.mac.plist",
+      "notarize": false
+    },
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": ["x64", "arm64"]
+        },
+        {
+          "target": "portable",
+          "arch": ["x64"]
+        }
+      ],
+      "icon": "build/icon.ico"
+    },
+    "linux": {
+      "target": [
+        {
+          "target": "AppImage",
+          "arch": ["x64", "arm64"]
+        },
+        {
+          "target": "deb",
+          "arch": ["x64", "arm64"]
+        }
+      ],
+      "category": "Game"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "installerIcon": "build/icon.ico",
+      "uninstallerIcon": "build/icon.ico",
+      "installerHeaderIcon": "build/icon.ico",
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "NexusPlay"
+    },
+    "publish": {
+      "provider": "github",
+      "owner": "nexusplay",
+      "repo": "platform"
+    }
+  }
+}
