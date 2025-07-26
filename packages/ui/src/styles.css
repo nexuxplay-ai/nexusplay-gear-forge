@@ -1,0 +1,194 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Dark Gaming Theme - Core Colors */
+    --background: 240 10% 4%;
+    --foreground: 0 0% 98%;
+    --card: 240 8% 6%;
+    --card-foreground: 0 0% 95%;
+    --popover: 240 8% 6%;
+    --popover-foreground: 0 0% 95%;
+    --primary: 270 91% 65%;
+    --primary-foreground: 240 10% 4%;
+    --secondary: 240 8% 12%;
+    --secondary-foreground: 0 0% 95%;
+    --muted: 240 8% 12%;
+    --muted-foreground: 240 5% 65%;
+    --accent: 270 91% 65%;
+    --accent-foreground: 240 10% 4%;
+    --destructive: 0 91% 71%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 8% 15%;
+    --input: 240 8% 12%;
+    --ring: 270 91% 65%;
+    --radius: 0.75rem;
+
+    /* Gaming Accent Colors */
+    --gaming-green: 142 76% 50%;
+    --gaming-purple: 270 91% 65%;
+    --gaming-blue: 217 91% 60%;
+    --gaming-orange: 25 95% 53%;
+    --gaming-red: 0 91% 71%;
+    --gaming-cyan: 180 100% 50%;
+    --gaming-pink: 330 100% 70%;
+    
+    /* Neon Variants */
+    --neon-primary: 270 100% 80%;
+    --neon-secondary: 142 100% 60%;
+    --neon-accent: 217 100% 70%;
+    
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--gaming-cyan)));
+    --gradient-secondary: linear-gradient(135deg, hsl(var(--gaming-purple)), hsl(var(--gaming-pink)));
+    --gradient-gaming: linear-gradient(135deg, hsl(var(--gaming-green)), hsl(var(--gaming-blue)));
+    --gradient-hero: radial-gradient(ellipse at center, hsl(var(--primary) / 0.15), transparent 70%);
+    --gradient-card: linear-gradient(145deg, hsl(var(--card)), hsl(var(--muted)));
+    
+    /* Shadows */
+    --shadow-gaming: 0 0 30px hsl(var(--primary) / 0.3);
+    --shadow-glow: 0 0 40px hsl(var(--neon-primary) / 0.4);
+    --shadow-neon: 0 0 20px hsl(var(--gaming-cyan) / 0.5);
+    --shadow-elevation: 0 10px 30px -10px hsl(0 0% 0% / 0.3);
+  }
+
+  .light {
+    --background: 0 0% 98%;
+    --foreground: 240 10% 4%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 4%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 4%;
+    --primary: 270 91% 65%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 240 5% 96%;
+    --secondary-foreground: 240 10% 4%;
+    --muted: 240 5% 96%;
+    --muted-foreground: 240 4% 46%;
+    --accent: 270 91% 65%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 91% 71%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 6% 90%;
+    --input: 240 6% 90%;
+    --ring: 270 91% 65%;
+    
+    /* Light theme adjustments for gaming colors */
+    --gradient-hero: radial-gradient(ellipse at center, hsl(var(--primary) / 0.1), transparent 60%);
+    --shadow-gaming: 0 0 20px hsl(var(--primary) / 0.2);
+    --shadow-glow: 0 0 30px hsl(var(--primary) / 0.3);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    margin: 0;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-feature-settings: 'liga' 1, 'calt' 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@layer utilities {
+  /* Background Gradients */
+  .bg-gradient-primary {
+    background: var(--gradient-primary);
+  }
+  
+  .bg-gradient-secondary {
+    background: var(--gradient-secondary);
+  }
+  
+  .bg-gradient-gaming {
+    background: var(--gradient-gaming);
+  }
+  
+  .bg-gradient-hero {
+    background: var(--gradient-hero);
+  }
+  
+  .bg-gradient-card {
+    background: var(--gradient-card);
+  }
+  
+  /* Gaming Shadows */
+  .shadow-gaming {
+    box-shadow: var(--shadow-gaming);
+  }
+  
+  .shadow-glow {
+    box-shadow: var(--shadow-glow);
+  }
+  
+  .shadow-neon {
+    box-shadow: var(--shadow-neon);
+  }
+  
+  .shadow-elevation {
+    box-shadow: var(--shadow-elevation);
+  }
+  
+  /* Interactive Effects */
+  .hover-scale {
+    @apply transition-transform duration-300 ease-out;
+  }
+  
+  .hover-scale:hover {
+    @apply scale-105;
+  }
+  
+  .hover-glow {
+    @apply transition-all duration-300;
+  }
+  
+  .hover-glow:hover {
+    box-shadow: var(--shadow-glow);
+  }
+  
+  /* Gaming Color Utilities */
+  .text-gaming-green { color: hsl(var(--gaming-green)); }
+  .text-gaming-blue { color: hsl(var(--gaming-blue)); }
+  .text-gaming-purple { color: hsl(var(--gaming-purple)); }
+  .text-gaming-cyan { color: hsl(var(--gaming-cyan)); }
+  .text-neon { color: hsl(var(--neon-primary)); }
+  
+  .bg-gaming-green { background-color: hsl(var(--gaming-green)); }
+  .bg-gaming-blue { background-color: hsl(var(--gaming-blue)); }
+  .bg-gaming-purple { background-color: hsl(var(--gaming-purple)); }
+  .bg-gaming-cyan { background-color: hsl(var(--gaming-cyan)); }
+  
+  /* Glass Effect */
+  .glass {
+    @apply backdrop-blur-lg bg-card/50 border border-border/50;
+  }
+  
+  /* Neon Border Effect */
+  .neon-border {
+    border: 1px solid hsl(var(--neon-primary) / 0.5);
+    box-shadow: 0 0 10px hsl(var(--neon-primary) / 0.3);
+  }
+  
+  /* System Stats Bars */
+  .stats-bar {
+    @apply h-2 rounded-full bg-gradient-to-r from-gaming-green to-gaming-cyan transition-all duration-500;
+  }
+  
+  /* Floating Action Button */
+  .fab {
+    @apply fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full shadow-gaming hover:shadow-glow;
+    @apply bg-gradient-primary text-primary-foreground;
+    @apply flex items-center justify-center;
+    @apply transition-all duration-300 hover:scale-110;
+  }
+}
