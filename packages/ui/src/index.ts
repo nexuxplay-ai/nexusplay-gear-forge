@@ -33,6 +33,9 @@ export { default as NexusAI } from './components/NexusAI';
 export { default as InstallPrompt } from './components/InstallPrompt';
 export { default as FPSCounter } from './components/FPSCounter';
 export { default as ProductGrid } from './components/ProductGrid';
+export { default as OptimizerPanel } from './components/OptimizerPanel';
+export { default as ProKeyPanel } from './components/ProKeyPanel';
+export { default as FPSOverlay } from './components/FPSOverlay';
 
 // Optimization Components
 export { default as GPUTweaks } from './components/optimization/GPUTweaks';
