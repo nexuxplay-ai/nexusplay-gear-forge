@@ -63,7 +63,7 @@ export default function SystemMonitor() {
     system: { uptime: 0, processes: 0, threats: 0 }
   });
 
-  const [history, setHistory] = useState<{cpu: number[], memory: number[], network: number[]}>{
+  const [history, setHistory] = useState<{cpu: number[]; memory: number[]; network: number[]}>({
     cpu: Array(20).fill(0),
     memory: Array(20).fill(0),
     network: Array(20).fill(0)

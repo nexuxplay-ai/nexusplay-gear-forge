@@ -128,8 +128,8 @@ export default function Optimizer() {
     },
   ];
 
-  const handleToggle = (key: keyof typeof settings) => {
-    setSettings(prev => ({ ...prev, [key]: !prev[key] }));
+  const handleToggle = (key: string) => {
+    setSettings(prev => ({ ...prev, [key]: !prev[key as keyof typeof settings] }));
   };
 
   const handleExport = () => {
@@ -217,7 +217,7 @@ export default function Optimizer() {
 
   const OptimizationCard = ({ optimization, disabled = false, tier = "" }: {
     optimization: {
-      key: keyof typeof settings;
+      key: string;
       label: string;
       description: string;
       icon: any;
@@ -260,7 +260,7 @@ export default function Optimizer() {
             <div className="flex items-center space-x-2">
               {disabled && <Lock className="w-4 h-4 text-gray-500" />}
               <Switch
-                checked={settings[optimization.key]}
+                checked={settings[optimization.key as keyof typeof settings]}
                 onCheckedChange={() => handleToggle(optimization.key)}
                 disabled={disabled}
               />
@@ -455,7 +455,6 @@ export default function Optimizer() {
                 </Button>
               </div>
             </TabsContent>
-          </TabsContent>
 
             <TabsContent value="android" className="text-center py-16">
               <Card className="bg-black/40 border-gray-800/50 backdrop-blur-sm max-w-md mx-auto">

@@ -62,7 +62,7 @@ export default function ProductGrid() {
     });
   };
 
-  const categories = ["all", ...new Set(products.map(p => p.category))];
+  const categories = ["all", ...Array.from(new Set(products.map(p => p.category)))];
 
   const filteredProducts = products
     .filter(p => filter === "all" || p.category === filter)
