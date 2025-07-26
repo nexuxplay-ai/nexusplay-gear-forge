@@ -127,7 +127,7 @@ export default function Optimizer() {
     },
   ];
 
-  const handleToggle = (key: string) => {
+  const handleToggle = (key: keyof typeof settings) => {
     setSettings(prev => ({ ...prev, [key]: !prev[key] }));
   };
 
@@ -214,7 +214,16 @@ export default function Optimizer() {
     },
   ];
 
-  const OptimizationCard = ({ optimization, disabled = false, tier = "" }) => {
+  const OptimizationCard = ({ optimization, disabled = false, tier = "" }: {
+    optimization: {
+      key: keyof typeof settings;
+      label: string;
+      description: string;
+      icon: any;
+    };
+    disabled?: boolean;
+    tier?: string;
+  }) => {
     const Icon = optimization.icon;
     return (
       <Card className={`transition-all ${disabled ? "opacity-50" : "hover:shadow-gaming"}`}>

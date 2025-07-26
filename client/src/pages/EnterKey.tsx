@@ -23,7 +23,12 @@ export default function EnterKey() {
     await new Promise(resolve => setTimeout(resolve, 1500));
 
     // Mock validation logic
-    const validKeys = {
+    const validKeys: Record<string, {
+      tier: string;
+      status: string;
+      expires: string;
+      features: string[];
+    }> = {
       "NEXUS-PRO-DEMO": {
         tier: "Tier 1",
         status: "Active",

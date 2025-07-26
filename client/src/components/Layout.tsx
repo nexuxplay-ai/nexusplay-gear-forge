@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation } from "wouter";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -18,11 +18,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   const [cartModalOpen, setCartModalOpen] = useState(false);
   const [user, setUser] = useState<any>(null);
   const [cart, setCart] = useState<any[]>([]);
-  const location = useLocation();
+  const [location] = useLocation();
 
   const getAIContext = () => {
-    if (location.pathname === '/optimizer') return 'optimizer';
-    if (location.pathname === '/gear') return 'store';
+    if (location === '/optimizer') return 'optimizer';
+    if (location === '/gear') return 'store';
     return 'optimizer'; // default context
   };
 

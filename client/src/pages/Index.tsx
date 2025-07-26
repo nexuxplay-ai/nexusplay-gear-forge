@@ -18,7 +18,7 @@ import {
   ShoppingBag,
   Crown
 } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link } from "wouter";
 
 interface SystemStats {
   cpu: number;
