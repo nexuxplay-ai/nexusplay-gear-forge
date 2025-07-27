@@ -5,7 +5,7 @@ export * from './types';
 export * from './license';
 
 // Export optimization engine
-export { defaultOptimizationSettings } from './optimization';
+export * from './optimization';
 
 // Export utilities
 export * from './utils';
