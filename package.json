@@ -1,95 +1,21 @@
 {
   "name": "@nexusplay/monorepo",
-  "version": "2.0.0",
+  "version": "1.0.0",
   "private": true,
-  "description": "Enterprise-grade gaming optimization platform",
   "workspaces": [
     "apps/*",
     "packages/*"
   ],
-  ""packageManager": "pnpm@8.15.0"
-  "engines": {
-    "node": ">=18.0.0",
-    "npm": ">=10.0.0"
-  },
   "scripts": {
-    "dev": "turbo run dev",
     "build": "turbo run build",
-    "build:web": "turbo run build --filter=@nexusplay/web",
-    "build:desktop": "turbo run build --filter=@nexusplay/desktop",
-    "build:mobile": "turbo run build --filter=@nexusplay/mobile",
-    "start": "turbo run start",
-    "check": "turbo run check",
+    "dev": "turbo run dev",
     "lint": "turbo run lint",
     "test": "turbo run test",
-    "clean": "turbo run clean && rm -rf node_modules",
-    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\"",
-    "changeset": "changeset",
-    "version-packages": "changeset version",
-    "release": "turbo run build && changeset publish",
-    "electron:dev": "npm run dev --workspace=@nexusplay/desktop",
-    "electron:build": "npm run build:electron --workspace=@nexusplay/desktop",
-    "cap:build:android": "npm run build:android --workspace=@nexusplay/mobile",
-    "cap:build:ios": "npm run build:ios --workspace=@nexusplay/mobile",
-    "setup": "chmod +x scripts/setup.sh && ./scripts/setup.sh"
+    "format": "turbo run format",
+    "check": "turbo run check"
   },
   "devDependencies": {
-    "@changesets/changelog-github": "^0.5.0",
-    "@changesets/cli": "^2.27.1",
-    "@turbo/gen": "^1.13.4",
-    "turbo": "^1.13.4",
-    "prettier": "^3.3.0",
-    "typescript": "^5.5.0",
-    "@types/node": "^20.14.0"
+    "turbo": "^1.7.1"
   },
-  "turbo": {
-    "pipeline": {
-      "build": {
-        "dependsOn": ["^build"],
-        "outputs": [
-          "dist/**",
-          ".next/**",
-          "!.next/cache/**",
-          "out/**",
-          "build/**"
-        ]
-      },
-      "dev": {
-        "cache": false,
-        "persistent": true
-      },
-      "start": {
-        "cache": false,
-        "persistent": true
-      },
-      "check": {
-        "dependsOn": ["^build"]
-      },
-      "lint": {
-        "dependsOn": ["^build"]
-      },
-      "test": {
-        "dependsOn": ["^build"]
-      },
-      "clean": {
-        "cache": false
-      }
-    }
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/nexusplay/platform"
-  },
-  "keywords": [
-    "gaming",
-    "optimization",
-    "performance",
-    "pwa",
-    "electron",
-    "mobile",
-    "monorepo",
-    "enterprise"
-  ],
-  "license": "MIT",
-  "author": "NexusPlay Team"
+  "packageManager": "npm@9.8.0"
 }
