@@ -10,67 +10,40 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
-# env:
-#   TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
-
 jobs:
   quality:
     name: Code Quality
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Build packages
-        run: npm run build --filter=@nexusplay/ui --filter=@nexusplay/core
-
-      - name: Type check
-        run: npm run check
-
-      - name: Lint
-        run: npm run lint
-
-      - name: Format check
-        run: npm run format -- --check
-
-      - name: Test
-        run: npm run test
+      - run: npm ci
+      - run: npm run build --filter=@nexusplay/ui --filter=@nexusplay/core
+      - run: npm run check
+      - run: npm run lint
+      - run: npm run format -- --check
+      - run: npm run test
 
   build-web:
     name: Build Web App
     runs-on: ubuntu-latest
     needs: quality
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Build web app
-        run: npm run build:web
+      - run: npm ci
+      - run: npm run build:web
         env:
           NEXT_TELEMETRY_DISABLED: 1
-
-      - name: Upload web build
-        uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v4
         with:
           name: web-build
           path: apps/web/.next
@@ -84,28 +57,17 @@ jobs:
     runs-on: ${{ matrix.os }}
     needs: quality
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Build desktop app
-        run: npm run build:desktop
-
-      - name: Package Electron app
-        run: npm run build:electron -w @nexusplay/desktop
+      - run: npm ci
+      - run: npm run build:desktop
+      - run: npm run build:electron -w @nexusplay/desktop
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Upload desktop build
-        uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v4
         with:
           name: desktop-build-${{ matrix.os }}
           path: apps/desktop/build
@@ -116,35 +78,20 @@ jobs:
     runs-on: ubuntu-latest
     needs: quality
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: 'npm'
-
-      - name: Setup Java
-        uses: actions/setup-java@v4
+      - uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '17'
-
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v3
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Build mobile app
-        run: npm run build:mobile
-
-      - name: Build Android APK
-        run: npm run build:android -w @nexusplay/mobile
-
-      - name: Upload mobile build
-        uses: actions/upload-artifact@v4
+      - uses: android-actions/setup-android@v3
+      - run: npm ci
+      - run: npm run build:mobile
+      - run: npm run build:android -w @nexusplay/mobile
+      - uses: actions/upload-artifact@v4
         with:
           name: mobile-build
           path: apps/mobile/android/app/build/outputs
@@ -155,21 +102,15 @@ jobs:
     runs-on: ubuntu-latest
     needs: [build-web, build-desktop, build-mobile]
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Create Version & Changelog
+      - run: npm ci
+      - name: Bump Version & Generate Changelog
         uses: changesets/action@v1
         with:
           version: npm run version
@@ -182,22 +123,18 @@ jobs:
     name: Deploy Web App
     runs-on: ubuntu-latest
     needs: versioning
-    if: ${{ github.ref == 'refs/heads/main' }}
+    if: github.ref == 'refs/heads/main'
     environment: production
-    env:
-      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }} # Ensure this secret is set in your repository or organization settings
-      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }} # Ensure this secret is set in your repository or organization settings
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Download web build
-        uses: actions/download-artifact@v3
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
         with:
           name: web-build
           path: apps/web/.next
-
       - name: Deploy to Vercel
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
         run: |
           npm i -g vercel
           vercel --prod --token "$VERCEL_TOKEN" --scope "$VERCEL_ORG_ID" --confirm
@@ -207,17 +144,13 @@ jobs:
     name: Deploy Desktop App
     runs-on: ubuntu-latest
     needs: versioning
-    if: ${{ github.ref == 'refs/heads/main' }}
+    if: github.ref == 'refs/heads/main'
     environment: production
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Download desktop builds
-        uses: actions/download-artifact@v3
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
         with:
           path: releases
-
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
@@ -234,9 +167,7 @@ jobs:
     name: Security Scan
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
+      - uses: actions/checkout@v4
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@0.22.0
         with:
@@ -244,9 +175,7 @@ jobs:
           scan-ref: '.'
           format: 'sarif'
           output: 'trivy-results.sarif'
-
-      - name: Upload Trivy scan results
-        uses: github/codeql-action/upload-sarif@v3
+      - uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: 'trivy-results.sarif'
 
@@ -254,33 +183,20 @@ jobs:
     name: Lighthouse Audit
     runs-on: ubuntu-latest
     needs: build-web
-    if: ${{ github.event_name == 'pull_request' }}
+    if: github.event_name == 'pull_request'
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Build web app
-        run: npm run build:web
-
-      - name: Start web server
-        run: npm run start -w @nexusplay/web &
+      - run: npm ci
+      - run: npm run build:web
+      - run: npm run start -w @nexusplay/web &
         env:
           PORT: 3000
-
-      - name: Wait for server
-        run: npx wait-on http://localhost:3000
-
-      - name: Run Lighthouse
-        uses: treosh/lighthouse-ci-action@v12
+      - run: npx wait-on http://localhost:3000
+      - uses: treosh/lighthouse-ci-action@v12
         with:
           urls: |
             http://localhost:3000
