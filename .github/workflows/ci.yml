@@ -101,7 +101,7 @@ jobs:
         run: npm run build:desktop
 
       - name: Package Electron app
-        run: npm run build:electron --workspace=@nexusplay/desktop
+        run: npm run build:electron -w @nexusplay/desktop
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -142,7 +142,7 @@ jobs:
         run: npm run build:mobile
 
       - name: Build Android APK
-        run: npm run build:android --workspace=@nexusplay/mobile
+        run: npm run build:android -w @nexusplay/mobile
 
       - name: Upload mobile build
         uses: actions/upload-artifact@v4
@@ -151,46 +151,69 @@ jobs:
           path: apps/mobile/android/app/build/outputs
           retention-days: 7
 
+  versioning:
+    name: Versioning & Changelog
+    runs-on: ubuntu-latest
+    needs: [build-web, build-desktop, build-mobile]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Create Version & Changelog
+        uses: changesets/action@v1
+        with:
+          version: npm run version
+          commit: "chore: release"
+          title: "Release v${{ github.run_number }}"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
   deploy-web:
     name: Deploy Web App
     runs-on: ubuntu-latest
-    needs: build-web
-    if: github.ref == 'refs/heads/main'
+    needs: versioning
+    if: ${{ github.ref == 'refs/heads/main' }}
     environment: production
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
       - name: Download web build
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v3
         with:
           name: web-build
           path: apps/web/.next
 
       - name: Deploy to Vercel
-        uses: amondnet/vercel-action@v25
-        with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
-          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
-          working-directory: apps/web
-          vercel-args: '--prod'
+        run: |
+          npm i -g vercel
+          vercel --prod --token ${{ secrets.VERCEL_TOKEN }} --scope ${{ secrets.VERCEL_ORG_ID }} --confirm
+        working-directory: apps/web
 
   deploy-desktop:
     name: Deploy Desktop App
     runs-on: ubuntu-latest
-    needs: build-desktop
-    if: github.ref == 'refs/heads/main'
+    needs: versioning
+    if: ${{ github.ref == 'refs/heads/main' }}
     environment: production
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
       - name: Download desktop builds
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v3
         with:
-          pattern: desktop-build-*
-          merge-multiple: true
           path: releases
 
       - name: Create GitHub Release
@@ -198,23 +221,7 @@ jobs:
         with:
           tag_name: v${{ github.run_number }}
           name: NexusPlay Desktop v${{ github.run_number }}
-          body: |
-            ## 🚀 NexusPlay Desktop Release
-            
-            ### What's New
-            - Latest optimizations and performance improvements
-            - Enhanced system monitoring
-            - Bug fixes and stability improvements
-            
-            ### Download
-            - **Windows**: Download the `.exe` installer
-            - **macOS**: Download the `.dmg` file
-            - **Linux**: Download the `.AppImage` or `.deb` package
-            
-            ### System Requirements
-            - **Windows**: Windows 10 or later
-            - **macOS**: macOS 10.14 or later
-            - **Linux**: Ubuntu 18.04 or equivalent
+          body_path: CHANGELOG.md
           files: releases/**/*
           draft: false
           prerelease: false
@@ -229,7 +236,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Run Trivy vulnerability scanner
-        uses: aquasecurity/trivy-action@master
+        uses: aquasecurity/trivy-action@0.22.0
         with:
           scan-type: 'fs'
           scan-ref: '.'
@@ -245,7 +252,7 @@ jobs:
     name: Lighthouse Audit
     runs-on: ubuntu-latest
     needs: build-web
-    if: github.event_name == 'pull_request'
+    if: ${{ github.event_name == 'pull_request' }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -263,7 +270,7 @@ jobs:
         run: npm run build:web
 
       - name: Start web server
-        run: npm run start --workspace=@nexusplay/web &
+        run: npm run start -w @nexusplay/web &
         env:
           PORT: 3000
 
