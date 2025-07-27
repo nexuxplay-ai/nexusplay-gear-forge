@@ -10,9 +10,8 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
-env:
-  TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
-  TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
+# env:
+#   TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
 
 jobs:
   quality:
@@ -185,6 +184,9 @@ jobs:
     needs: versioning
     if: ${{ github.ref == 'refs/heads/main' }}
     environment: production
+    env:
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }} # Ensure this secret is set in your repository or organization settings
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }} # Ensure this secret is set in your repository or organization settings
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -198,7 +200,7 @@ jobs:
       - name: Deploy to Vercel
         run: |
           npm i -g vercel
-          vercel --prod --token ${{ secrets.VERCEL_TOKEN }} --scope ${{ secrets.VERCEL_ORG_ID }} --confirm
+          vercel --prod --token "$VERCEL_TOKEN" --scope "$VERCEL_ORG_ID" --confirm
         working-directory: apps/web
 
   deploy-desktop:
