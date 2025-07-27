@@ -100,7 +100,6 @@
       "provider": "github",
       "owner": "nexusplay",
       "repo": "platform"
-    }"build:dev": "vite build --mode development"
-
+    }
   }
 }
