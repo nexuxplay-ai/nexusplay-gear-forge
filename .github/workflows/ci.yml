@@ -119,12 +119,15 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-  deploy-web:
+   deploy-web:
     name: Deploy Web App
     runs-on: ubuntu-latest
     needs: versioning
     if: github.ref == 'refs/heads/main'
     environment: production
+    env: # <-- define here for the whole job
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/download-artifact@v4
@@ -132,9 +135,6 @@ jobs:
           name: web-build
           path: apps/web/.next
       - name: Deploy to Vercel
-        env:
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
         run: |
           npm i -g vercel
           vercel --prod --token "$VERCEL_TOKEN" --scope "$VERCEL_ORG_ID" --confirm
