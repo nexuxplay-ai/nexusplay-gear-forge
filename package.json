@@ -37,15 +37,17 @@
     "@changesets/changelog-github": "^0.5.0",
     "@changesets/cli": "^2.27.1",
     "@turbo/gen": "^1.13.4",
-    "turbo": "^1.13.4",
+    "@types/node": "^20.14.0",
     "prettier": "^3.3.0",
-    "typescript": "^5.5.0",
-    "@types/node": "^20.14.0"
+    "turbo": "^1.13.4",
+    "typescript": "^5.5.0"
   },
   "turbo": {
     "pipeline": {
       "build": {
-        "dependsOn": ["^build"],
+        "dependsOn": [
+          "^build"
+        ],
         "outputs": [
           "dist/**",
           ".next/**",
@@ -63,13 +65,19 @@
         "persistent": true
       },
       "check": {
-        "dependsOn": ["^build"]
+        "dependsOn": [
+          "^build"
+        ]
       },
       "lint": {
-        "dependsOn": ["^build"]
+        "dependsOn": [
+          "^build"
+        ]
       },
       "test": {
-        "dependsOn": ["^build"]
+        "dependsOn": [
+          "^build"
+        ]
       },
       "clean": {
         "cache": false
@@ -91,5 +99,11 @@
     "enterprise"
   ],
   "license": "MIT",
-  "author": "NexusPlay Team"
+  "author": "NexusPlay Team",
+  "dependencies": {
+    "crypto-js": "^4.2.0",
+    "tsup": "^8.5.0",
+    "uuid": "^11.1.0",
+    "zod": "^4.0.10"
+  }
 }
