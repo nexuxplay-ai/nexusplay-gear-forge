@@ -1,5 +1,5 @@
 {
-  "name": "@nexusplay/monorepo",
+  "name": "nexusplay-monorepo",
   "version": "1.0.0",
   "private": true,
   "workspaces": [
@@ -7,15 +7,12 @@
     "packages/*"
   ],
   "scripts": {
-    "build": "turbo run build",
-    "dev": "turbo run dev",
+    "build": "turbo run build --filter=web",
+    "dev": "turbo run dev --parallel --filter=web",
     "lint": "turbo run lint",
-    "test": "turbo run test",
-    "format": "turbo run format",
-    "check": "turbo run check"
+    "test": "turbo run test"
   },
   "devDependencies": {
-    "turbo": "^1.7.1"
-  },
-  "packageManager": "npm@9.8.0"
+    "turbo": "^2.0.3"
+  }
 }
