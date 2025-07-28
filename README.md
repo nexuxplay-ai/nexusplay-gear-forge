@@ -322,7 +322,7 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 - **Developer Docs**: [docs.nexusplay.app/dev](https://docs.nexusplay.app/dev)
 
 ### Community
-- **Discord**: [Join our community](https://discord.gg/nexusplay)
+- **Discord**: [Join our community](https://discord.gg/hGBhsT67)
 - **GitHub Discussions**: [Ask questions](https://github.com/nexusplay/platform/discussions)
 - **Stack Overflow**: Use tag `nexusplay`
 
