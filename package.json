@@ -7,7 +7,7 @@
     "packages/*"
   ],
   "scripts": {
-    "build": "turbo run build --filter=web",
+    "build": "turbo run build --filter=@nexusplay/web",
     "dev": "turbo run dev --parallel --filter=web",
     "lint": "turbo run lint",
     "test": "turbo run test"
